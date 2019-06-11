@@ -1,0 +1,103 @@
+データセットの読み込み
+from sklearn.datasets import load_boston
+
+dataset = load_boston()
+
+dataとtargetをxとtに
+x = dataset.data
+t = dataset.target
+
+xは506個の13次元ベクトル並べたもの
+x.shape
+
+tは506次元ベクトル
+t.shape
+
+データセットの分割
+from sklearn.model_selection import train_test_split
+
+x_train, x_test, t_train, t_test = train_test_split(x, t, test_size=0.3, random_state=0)
+
+sklearn.linear_model以下にあるLinearRegressionクラス読み込んでインスタンス作成
+from sklearn.linear_model import LinearRegression
+
+reg_model = LinearRegression()
+
+モデルの訓練
+reg_model.fit(x_train, t_train)
+
+パラメータの値確認
+reg_model.coef_
+reg_model.intercept_
+
+精度の検証
+reg_model.score(x_train, t_train)
+
+推論
+reg_model.predict(x_test[:1])
+
+目標値確認
+t_test[0]
+
+テスト用データセット用いた評価
+reg_model.score(x_test, t_test)
+
+標準化する。
+StandardScalerクラスを読み込みインスタンス作成
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+
+平均と分散計算する
+scaler.fit(x_train)
+
+平均と分散の確認
+scaler.mean_
+scaler.var_
+
+transform()メソッドで標準化
+x_train_scaled = scaler.transform(x_train)
+x_test_scaled = scaler.transform(x_test)
+
+モデルの訓練
+reg_model = LinearRegression()
+
+reg_model.fit(x_train_scaled, t_train)
+
+精度の検証
+reg_model.score(x_train_scaled, t_train)
+reg_model.score(x_test_scaled, t_test)
+
+べき変換する別の前処理適用
+from sklearn.preprocessing import PowerTransformer
+
+scaler = PowerTransformer()
+scaler.fit(x_train)
+
+x_train_scaled = scaler.transform(x_train)
+x_test_scaled = scaler.transform(x_test)
+
+reg_model = LinearRegression()
+reg_model.fit(x_train_scaled, t_train)
+
+決定係数による評価
+reg_model.score(x_train_scaled, t_train)
+reg_model.score(x_test_scaled, t_test)
+
+パイプライン化
+from sklearn.pipeline import Pipeline
+
+pipeline = Pipeline([
+    ('scaler', PowerTransformer()),
+    ('reg', LinearRegression())
+])
+
+pipeline.fit(x_train, t_train)
+
+訓練用用いた評価
+pipeline.score(x_train, t_train)
+
+テスト用用いた評価
+linear_result = pipeline.score(x_test, t_test)
+
+linear_result
