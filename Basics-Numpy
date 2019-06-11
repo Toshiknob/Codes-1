@@ -1,0 +1,79 @@
+Numpyの読み込み
+import numpy as np
+
+形を指定して0〜1の乱数で要素埋めたndarray作る
+e = np.random.random((4, 5))
+
+e
+
+1行2列目の値取り出す
+val = e[0, 1]
+
+val
+
+スライスによる要素の選択
+center = e[1:3, 1:4]
+
+center
+
+形の比較
+print('Shape of e:', e.shape)
+print('Shape of center:', center.shape)
+
+値の代入
+e[1:3, 1:4] = 0
+
+e
+
+NumPyを用いた重回帰分析
+X = np.array([
+    [2, 3],
+    [2, 5],
+    [3, 4],
+    [5, 9],
+])
+
+X
+
+切片を重みベクトルに含めるため0列目に1を付け加える
+ones = np.ones((X.shape[0], 1))
+
+X = np.concatenate((ones, X), axis=1)
+
+X
+
+目標値tの定義
+t = np.array([1, 5, 6, 8])
+
+t
+
+正規方程式の解求める
+まずX^TXの計算
+xx = np.dot(X.T, X)
+
+xx
+
+次にこの逆行列計算
+xx_inv = np.linalg.inv(xx)
+
+xx_inv
+
+次にX^tの計算
+xt = np.dot(X.T, t)
+
+xt
+
+xx_invとxt掛け合わせる
+w = np.dot(xx_inv, xt)
+
+w
+
+1行でも行える
+w_ = np.linalg.inv(X.T.dot(X)).dot(X.T).dot(t)
+
+w_
+
+ひとまとめに行える関数numpy.linalg.solve使うのがラク
+w_ = np.linalg.solve(X.T.dot(X), X.T.dot(t))
+
+w_
