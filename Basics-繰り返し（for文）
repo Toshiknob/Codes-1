@@ -1,0 +1,26 @@
+リストの要素に順番にアクセス
+names = ['佐藤', '鈴木', '高橋']
+
+for i in range(3):
+    print(names[i])
+    
+自動的に敬称
+for i in range(3):
+    print('{}さん'.format(names[i]))
+    
+もっと汎用性高くする。
+
+要素の数の取得
+len(names)
+
+for i in range(len(names)):
+    print('{}さん'.format(names[i]))
+    
+より読みやすく
+for name in names:
+    print('{}さん'.format(name))
+
+要素番号使用する
+for i, name in enumerate(names):
+    message = '{}番目:{}さん'.format(i, name)
+    print(message)
