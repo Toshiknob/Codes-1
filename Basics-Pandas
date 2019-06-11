@@ -1,0 +1,148 @@
+Pandasの読み込み
+import pandas as pd
+
+データセットの読み込み
+df = pd.read_csv('sample_data/california_housing_train.csv')
+
+型の確認
+type(df)
+
+Dataframeの表示
+df
+
+先頭数件だけ表示
+df.head()
+df.head(3)
+
+特定の列抽出する場合
+df['longitude'].head(3)
+
+CSVファイルの保存
+df.to_csv('sample.csv')
+!ls sample.csv
+
+データフレームの形
+df.shape
+
+統計量の算出
+df.mean()
+df.var()
+df.count()
+
+データの概要
+df.describe()
+
+相関係数の算出
+df.corr()
+
+total_rooms列の値を昇順に並び替え
+df_as = df.sort_values(by='total_rooms')
+df_as.head()
+
+降順に並び替え
+df_de = df.sort_values(by='total_rooms', ascending=False)
+df_de.head()
+
+データの選択
+0行目longtitude列の選択
+df.iloc[0, 0]
+
+1行目latitude列の選択
+df.iloc[1, 1]
+
+全ての行の最後の列選択
+t = df.iloc[:, -1]
+t.head(3)
+
+型の確認
+type(t)
+
+全ての行の先頭の列から末尾の一つ手前まで選択
+x = df.iloc[:, 0:-1]
+x.head(3)
+
+x = df.iloc[:, :-1]
+x.head(3)
+
+型の確認
+type(x)
+
+median_house_value列の全要素に対し70000より大きいかどうか
+mask = df['median_house_value'] > 70000
+mask.head()
+
+df[mask]の先頭5件表示
+df[mask].head()
+
+70000より小さいまたは80000より大きい
+mask2 = (df['median_house_value'] < 70000) | (df['median_house_value'] > 80000)
+mask2.head()
+df[mask2].head()
+
+70000より大きいかつ80000より小さい
+mask3 = (df['median_house_value'] > 70000) & (df['median_house_value'] < 80000)
+mask3.head()
+df[mask3].head()
+
+条件に当てはまる要素調べる操作と要素の選択1行にまとめられる
+df[(df['median_house_value'] > 70000) & (df['median_house_value'] < 80000)].head()
+
+条件指定による要素の置換
+df['target'] = None
+df.head()
+
+mask1 = df['median_house_value'] < 60000
+mask2 = (df['median_house_value'] >= 60000) & (df['median_house_value'] < 70000)
+mask3 = (df['median_house_value'] >= 70000) & (df['median_house_value'] < 80000)
+mask4 = df['median_house_value'] >= 80000
+
+df.loc[mask1, 'target'] = 0
+df.loc[mask2, 'target'] = 1
+df.loc[mask3, 'target'] = 2
+df.loc[mask4, 'target'] = 3
+
+df.head()
+
+欠損値の除去・補完
+欠損値の作成
+df.iloc[0, 0] = None
+df.head(3)
+
+欠損値のあるレコード削除
+df_dropna = df.propna()
+df_dropna.head(3)
+
+平均用いた欠損値の補完
+mean = df.mean()
+mean
+
+df_fillna = df.fillna(mean)
+df_fillna.head(3)
+
+ndarrayとデータフレーム相互に変換
+type(df)
+
+データフレームやシリーズはvaluesという属性に値をndarrayとして格納
+type(df.values)
+
+df.values
+
+type(df['longitude'])
+
+type(df['longitude'].values)
+
+逆にPythonのリストやndarrayからシリーズやデータフレーム作れる。
+pd.DataFrameのインスタンス化の際data引数に元にしたいndarray与える。
+
+import numpy as np
+
+df = pd.DataFrame(
+    data=np.random.randn(10, 10)
+)
+
+df
+
+グラフの描画
+df.plot()
+
+
