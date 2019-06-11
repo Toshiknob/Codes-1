@@ -1,0 +1,49 @@
+Numpyを用いて勾配の値計算する。バイアスベクトルは全て0で初期化されているとする
+import numpy as np
+
+x = np.array([2, 3, 1])
+
+t = np.array([20])
+
+パラメータ定義
+w1 = np.array([[3, 1, 2], [-2, -3, -1]])
+b1 = np.array([0, 0])
+
+w2 = np.array([[3, 2]])
+b2 = np.array([0])
+
+中間層、出力の計算
+u1 = w1.dot(x) + b1
+h1 = 1. / (1 + np.exp(-u1))
+
+y = w2.dot(h1) + b2
+
+print(y)
+
+勾配の偏微分計算する
+dLdy = -2 * (t - y)
+
+dydw2 = h1
+
+dLdw2 = dLdy * dydw2
+
+print(dLdw2)
+
+w1の更新量も求める
+dydh1 = w2
+
+dh1du1 = h1 * (1 - h1)
+
+du1dw1 = x
+
+dLdu1 = dLdy * dydh1 * dh1du1
+
+du1dw1 = du1dw1[None]
+du1dw1が(3,)なので(1, 3)に変形しているらしい。今ひとつ分からない
+dLdw1 = dLdu1.T.dot(du1dw1)
+
+print(dLdw1)
+
+
+
+
