@@ -1,0 +1,65 @@
+クラスの定義
+class House:
+
+    def __init__(self, name):
+        self.name_plate = name
+        
+    def hello(self):
+        print('{}の家です。'.format(self.name_plate))
+
+インスタンス作成してhello()メソッド呼び出す。
+sato = House('佐藤')
+
+sato.hello()
+
+継承
+class Link:
+
+    def __init__(self):
+        self.a = 1
+        self.b = 2
+        
+インスタンス作成
+l = Link()
+
+l.a
+l.b
+
+子クラス作る
+class Chain(Link):
+
+    def sum(self):
+        return self.a + self.b
+        
+インスタンス化
+c = Chain()
+
+c.a
+c.b
+
+sum()メソッド呼び出し
+c.sum()
+
+機能追加
+class Chain(Link):
+
+    def __init__(self):
+        super().__init__()
+        self.c = 5
+    
+    def sum(self):
+        return self.a + self.b + self.c
+        
+c = Chain()
+
+c.sum()
+
+更に継承
+class MyNetwork(Chain):
+
+    def mul(self):
+        return self.a * self.b * self.c
+        
+インスタンス作成
+net = MyNetwork()
+net.mul()
